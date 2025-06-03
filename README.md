@@ -1,99 +1,184 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🛡️ Auth Microservice - NestJS
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This is an authentication microservice built with [NestJS](https://nestjs.com/).  
+It is part of a microservices architecture and handles user authentication, JWT token generation, and role-based access validation.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 📚 Table of Contents
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Installation](#-installation)
+- [Environment Variables](#-environment-variables)
+- [API Endpoints](#-api-endpoints)
+- [Running with Docker](#-running-with-docker)
+- [Additional Notes](#-additional-notes)
+- [License](#-license)
 
-## Project setup
+---
 
-```bash
-$ npm install
+## 🚀 Features
+
+- User registration
+- Login with credentials
+- JWT access and refresh token generation
+- Refresh token endpoint
+- JWT middleware and role-based guards
+- MongoDB database integration
+- Microservice communication via NATS
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology | Description                                |
+|------------|--------------------------------------------|
+| NestJS     | Backend framework for Node.js              |
+| TypeScript | Main language of the project               |
+| MongoDB    | NoSQL database                             |
+| Mongoose   | ODM for MongoDB                            |
+| JWT        | Token-based authentication                 |
+| NATS       | Message broker for microservice messaging  |
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── auth/               # Authentication module (controllers, services, strategies)
+├── config/             # Global config and environment validation
+├── database/           # MongoDB schemas and connections
+├── guards/             # Auth guards (JWT and roles)
+├── interfaces/         # Shared interfaces
+├── main.ts             # Entry point of the application
 ```
 
-## Compile and run the project
+---
+
+## 📦 Installation
+
+To run the microservice locally:
+
+1. **Clone the repository**
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+git clone https://github.com/nest-microservices-nel/auth-ms.git
+cd auth-ms
 ```
 
-## Run tests
+2. **Install dependencies**
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
 ```
 
-## Deployment
+3. **Set up environment variables**
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Create a `.env` file in the root directory with the following content:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+```env
+PORT=3000
+NATS_SERVERS=nats://nats-server:4222
+DATABASE_MONGO_URL=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+```
+
+4. **Run in development mode**
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+npm run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 🔐 Environment Variables
 
-Check out a few resources that may come in handy when working with NestJS:
+| Variable              | Description                          |
+|-----------------------|--------------------------------------|
+| `PORT`                | Port where the service will run      |
+| `NATS_SERVERS`        | NATS server URL                      |
+| `DATABASE_MONGO_URL`  | MongoDB connection string            |
+| `JWT_SECRET`          | Secret used to sign JWT tokens       |
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+---
 
-## Support
+## 📬 API Endpoints
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### ✅ Register
 
-## Stay in touch
+**POST** `/auth/register`
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Registers a new user.
 
-## License
+### 🔐 Login
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+**POST** `/auth/login`
+
+- Validates credentials and returns:
+  - `accessToken`
+  - `refreshToken`
+
+### 🔁 Refresh Token
+
+**POST** `/auth/refresh`
+
+- Returns a new `accessToken` using a valid `refreshToken`.
+
+### 👤 Profile
+
+**GET** `/auth/profile`
+
+- Returns the authenticated user's information.
+- Requires a valid `accessToken` in the request headers.
+
+---
+
+## 🐳 Running with Docker
+
+### Step 1: Build the Docker image
+
+```bash
+docker build -t auth-ms .
+```
+
+### Step 2: Run the container
+
+```bash
+docker run -p 3000:3000 \
+  -e PORT=3000 \
+  -e NATS_SERVERS=nats://nats-server:4222 \
+  -e DATABASE_MONGO_URL=your_mongodb_connection_string \
+  -e JWT_SECRET=your_jwt_secret \
+  auth-ms
+```
+
+> Replace `your_mongodb_connection_string` and `your_jwt_secret` with your actual values.
+
+---
+
+## 📌 Additional Notes
+
+- This service is designed to work within a distributed system of microservices.
+- It uses **NATS** for message-based communication with other services.
+- Requires a running **MongoDB** instance.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.  
+You are free to use, modify, and distribute it with attribution to the original author.
+
+---
+
+## 🤝 Author
+
+**Nelson G.**  
+[GitHub](https://github.com/nelsin-06)
+
+[LinkedIn](https://www.linkedin.com/in/nelson-gallego-tec-dev)
+
+---
