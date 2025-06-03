@@ -12,7 +12,6 @@ It is part of a microservices architecture and handles user authentication, JWT 
 - [Project Structure](#-project-structure)
 - [Installation](#-installation)
 - [Environment Variables](#-environment-variables)
-- [API Endpoints](#-api-endpoints)
 - [Running with Docker](#-running-with-docker)
 - [Additional Notes](#-additional-notes)
 - [License](#-license)
@@ -21,13 +20,11 @@ It is part of a microservices architecture and handles user authentication, JWT 
 
 ## 🚀 Features
 
-- User registration
-- Login with credentials
+- User registration and login
 - JWT access and refresh token generation
-- Refresh token endpoint
-- JWT middleware and role-based guards
+- Role-based guards using JWT
 - MongoDB database integration
-- Microservice communication via NATS
+- Microservice routes via NATS message broker
 
 ---
 
@@ -48,7 +45,7 @@ It is part of a microservices architecture and handles user authentication, JWT 
 
 ```
 src/
-├── auth/               # Authentication module (controllers, services, strategies)
+├── auth/               # Authentication module (services, strategies)
 ├── config/             # Global config and environment validation
 ├── database/           # MongoDB schemas and connections
 ├── guards/             # Auth guards (JWT and roles)
@@ -105,37 +102,6 @@ npm run start:dev
 
 ---
 
-## 📬 API Endpoints
-
-### ✅ Register
-
-**POST** `/auth/register`
-
-- Registers a new user.
-
-### 🔐 Login
-
-**POST** `/auth/login`
-
-- Validates credentials and returns:
-  - `accessToken`
-  - `refreshToken`
-
-### 🔁 Refresh Token
-
-**POST** `/auth/refresh`
-
-- Returns a new `accessToken` using a valid `refreshToken`.
-
-### 👤 Profile
-
-**GET** `/auth/profile`
-
-- Returns the authenticated user's information.
-- Requires a valid `accessToken` in the request headers.
-
----
-
 ## 🐳 Running with Docker
 
 ### Step 1: Build the Docker image
@@ -161,9 +127,10 @@ docker run -p 3000:3000 \
 
 ## 📌 Additional Notes
 
-- This service is designed to work within a distributed system of microservices.
-- It uses **NATS** for message-based communication with other services.
-- Requires a running **MongoDB** instance.
+- This service does **not expose HTTP routes**.
+- Communication is handled via **NATS** microservice message patterns.
+- Requires a running **MongoDB** and **NATS server** instance.
+- Meant to be used as part of a distributed microservices system.
 
 ---
 
@@ -176,8 +143,5 @@ This project is licensed under the **MIT License**.
 ## 🤝 Author
 
 **Nelson G.**  
-[GitHub](https://github.com/nelsin-06)
-
+[GitHub](https://github.com/nelsin-06)  
 [LinkedIn](https://www.linkedin.com/in/nelson-gallego-tec-dev)
-
----
