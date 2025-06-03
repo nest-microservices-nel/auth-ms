@@ -5,6 +5,10 @@ It is part of a microservices architecture and handles user authentication, JWT 
 
 ---
 
+> ⚠️ **Important Note:**  
+> Please read the [Additional Notes](#-additional-notes) section **before using this microservice.**
+
+---
 ## 📚 Table of Contents
 
 - [Features](#-features)
